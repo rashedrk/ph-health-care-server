@@ -6,6 +6,8 @@ const getAllAdminFromDB = async (query: any) => {
     const andConditions: Prisma.AdminWhereInput[] = [];
     const adminSearchableFields = ['name', 'email'];
 
+    const {searchTerm, ...filterCondition} = query;
+
     if (query.searchTerm) {
         andConditions.push(
             {
@@ -31,6 +33,14 @@ const getAllAdminFromDB = async (query: any) => {
                 }))
             }
         )
+    }
+
+    if(Object.keys(filterCondition).length > 0){
+        andConditions.push({
+            AND: Object.keys(filterCondition).map(key => ({
+                [key]: filterCondition[key]
+            }))
+        })
     }
 
     const whereConditions: Prisma.AdminWhereInput = { AND: andConditions }
