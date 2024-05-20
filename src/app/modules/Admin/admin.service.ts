@@ -5,7 +5,6 @@ const prisma = new PrismaClient
 const getAllAdminFromDB = async (query: any) => {
     const andConditions: Prisma.AdminWhereInput[] = [];
     const adminSearchableFields = ['name', 'email'];
-
     const {searchTerm, ...filterCondition} = query;
 
     if (query.searchTerm) {
